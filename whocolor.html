@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        #d1{
+            border: 1px solid pink;
+        }
+    </style>
+</head>
+<body>
+<canvas id="d1" width="500px" height="500px"></canvas>
+<script src="js/easeljs-0.8.2.min.js"></script>
+<script>
+
+
+    function findColor(id){
+                 // 属性：公共属性；//格数
+        this.num=4;
+        this.width=0;
+        this.height=0;
+        this.arr=[];
+        this.id=id;
+        this.change=60;
+        this.stage={};
+        this.init();
+        this.drawImage();
+    }
+    findColor.prototype = {
+        init:function () {
+            //初始化
+            this.width=document.getElementById(this.id).width/this.num;
+            this.height=document.getElementById(this.id).height/this.num;
+            this.stage=new createjs.Stage(this.id);
+        },
+        rand: function (a) {
+            //随机取值
+            return Math.floor(Math.random()*a);
+
+        },
+        select: function () {
+            //选择器
+        },
+        drawImage:function(){ //画图
+            this.stage.removeAllChildren();
+            this.change-=this.rand(3)+1;
+          /*  var mynum=this.num;*/
+            this.width=document.getElementById(this.id).width/this.num;
+            this.height=document.getElementById(this.id).height/this.num;
+            this.arr=[this.rand(this.num),this.rand(this.num)];
+            this.color = [this.rand(255),this.rand(255),this.rand(255)];
+            for(var i=0;i<this.num;i++){
+                for(var j=0;j<this.num;j++){
+                    var bool=(i==this.arr[0]&&j==this.arr[1]);
+                    var graphics=new createjs.Graphics();
+                    if(bool){
+                        graphics.beginFill("rgb("+(this.color[0]-this.change)+
+                        ","+(this.color[1]-this.change)+","
+                        +(this.color[2]-this.change)+
+                        ")").drawRect(i*this.width,j*this.height,this.width-1,this.height-1);console.log(i+1,j+1);
+                        var shape1=new createjs.Shape(graphics);
+                        var self=this;
+                       /* shape1.addEventListener("click",function(){
+                            (self.num)++;
+                            self.drawImage();
+                        });*/
+
+                      /*  shape1.onclick=function(){
+                            (self.num)++;
+                            self.drawImage();
+                        };*/
+
+                        this.click(shape1);
+                    }
+                    else{
+                        graphics.beginFill("rgb("+(this.color[0])
+                        +","+(this.color[1])+","
+                        +(this.color[2])+
+                        ")").drawRect(i*this.width,j*this.height,this.width-1,this.height-1);
+                        var shape=new createjs.Shape(graphics);
+                    }
+
+                    this.stage.addChild(shape,shape1);
+                }
+            }
+            this.stage.update();
+
+        },
+        click:function(b) {//点击事件；
+            var self=this;
+            b.addEventListener("click",function () {
+                console.log(111);
+                (self.num)++;
+                self.drawImage();
+            })
+        }
+    };
+
+    var user1= new findColor('d1');
+    console.log(user1);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+</body>
+</html>
